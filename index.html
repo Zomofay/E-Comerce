@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ŌBSIDIAN — Luxury Store</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:ital@0;1&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════ INTRO SCREEN ═══════════════════════════ -->
+  <div id="intro-screen">
+    <canvas id="intro-canvas"></canvas>
+    <div id="intro-content">
+      <div id="intro-logo">
+        <span class="logo-text">ŌBSIDIAN</span>
+        <div class="logo-line"></div>
+        <span class="logo-sub">LUXURY COLLECTION</span>
+      </div>
+      <div id="intro-loader">
+        <div id="loader-bar"><div id="loader-fill"></div></div>
+        <span id="loader-pct">0%</span>
+      </div>
+      <button id="enter-btn" class="hidden">
+        <span>ENTRAR</span>
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div id="intro-overlay"></div>
+  </div>
+
+  <!-- ═══════════════════════════ CURSOR ═══════════════════════════ -->
+  <div id="cursor"></div>
+  <div id="cursor-follower"></div>
+
+  <!-- ═══════════════════════════ MAIN SITE ═══════════════════════════ -->
+  <div id="site" class="hidden">
+
+    <!-- NAV -->
+    <nav id="navbar">
+      <div class="nav-left">
+        <span class="nav-logo">ŌBSIDIAN</span>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#hero" class="nav-link">Home</a></li>
+        <li><a href="#featured" class="nav-link">Coleção</a></li>
+        <li><a href="#categories" class="nav-link">Categorias</a></li>
+        <li><a href="#about" class="nav-link">Sobre</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="nav-icon-btn" id="search-btn" title="Buscar">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        </button>
+        <button class="nav-icon-btn" id="wishlist-btn" title="Lista de Desejos">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="badge" id="wishlist-count">0</span>
+        </button>
+        <button class="nav-icon-btn" id="cart-btn" title="Carrinho">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="badge" id="cart-count">0</span>
+        </button>
+        <button class="nav-toggle" id="menu-toggle">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-menu">
+      <ul>
+        <li><a href="#hero" class="mob-link">Home</a></li>
+        <li><a href="#featured" class="mob-link">Coleção</a></li>
+        <li><a href="#categories" class="mob-link">Categorias</a></li>
+        <li><a href="#about" class="mob-link">Sobre</a></li>
+      </ul>
+    </div>
+
+    <!-- SEARCH OVERLAY -->
+    <div id="search-overlay">
+      <button id="search-close">✕</button>
+      <div id="search-box">
+        <input type="text" id="search-input" placeholder="Buscar produtos..." autocomplete="off"/>
+        <div id="search-results"></div>
+      </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div id="cart-overlay"></div>
+    <aside id="cart-drawer">
+      <div class="drawer-header">
+        <h3>Carrinho</h3>
+        <button id="cart-close">✕</button>
+      </div>
+      <div id="cart-items"></div>
+      <div id="cart-footer">
+        <div class="cart-total">
+          <span>Total</span>
+          <span id="cart-total-price">R$ 0,00</span>
+        </div>
+        <button class="btn-primary full-width" id="checkout-btn">Finalizar Compra</button>
+      </div>
+    </aside>
+
+    <!-- HERO -->
+    <section id="hero">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-content">
+        <div class="hero-eyebrow reveal-up">Nova Coleção 2026</div>
+        <h1 class="hero-title reveal-up">
+          <span>Elegância</span><br/>
+          <em>Redefinida</em>
+        </h1>
+        <p class="hero-desc reveal-up">Peças únicas criadas para quem valoriza o extraordinário. Materiais premium, design atemporal.</p>
+        <div class="hero-btns reveal-up">
+          <a href="#featured" class="btn-primary">Ver Coleção</a>
+          <a href="#about" class="btn-ghost">Nossa História</a>
+        </div>
+      </div>
+      <div class="hero-scroll-hint">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" data-target="2400">0</span><span>Clientes</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num" data-target="180">0</span><span>Produtos</span></div>
+        <div class="stat-div"></div>
+        <div class="stat"><span class="stat-num" data-target="12">0</span><span>Anos</span></div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span>LUXURY</span><span class="dot">·</span>
+        <span>PREMIUM</span><span class="dot">·</span>
+        <span>EXCLUSIVO</span><span class="dot">·</span>
+        <span>HANDCRAFTED</span><span class="dot">·</span>
+        <span>ATEMPORAL</span><span class="dot">·</span>
+        <span>LUXURY</span><span class="dot">·</span>
+        <span>PREMIUM</span><span class="dot">·</span>
+        <span>EXCLUSIVO</span><span class="dot">·</span>
+        <span>HANDCRAFTED</span><span class="dot">·</span>
+        <span>ATEMPORAL</span><span class="dot">·</span>
+      </div>
+    </div>
+
+    <!-- FEATURED PRODUCTS -->
+    <section id="featured">
+      <div class="section-header">
+        <span class="section-tag reveal-up">Destaque</span>
+        <h2 class="section-title reveal-up">Coleção Principal</h2>
+        <p class="section-desc reveal-up">Peças selecionadas a mão pela nossa equipe de curadores</p>
+      </div>
+      <div class="filters reveal-up">
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="acessorios">Acessórios</button>
+        <button class="filter-btn" data-filter="vestuario">Vestuário</button>
+        <button class="filter-btn" data-filter="joias">Joias</button>
+        <button class="filter-btn" data-filter="bolsas">Bolsas</button>
+      </div>
+      <div id="products-grid" class="products-grid"></div>
+      <div class="load-more-wrap">
+        <button class="btn-ghost" id="load-more">Carregar Mais</button>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section id="categories">
+      <div class="section-header">
+        <span class="section-tag reveal-up">Explorar</span>
+        <h2 class="section-title reveal-up">Categorias</h2>
+      </div>
+      <div class="categories-grid">
+        <div class="cat-card reveal-up" data-filter="acessorios">
+          <div class="cat-bg" style="background: linear-gradient(135deg,#1a1a2e,#16213e)">
+            <div class="cat-3d-icon" id="cat-icon-1"></div>
+          </div>
+          <div class="cat-info"><h3>Acessórios</h3><span>48 Itens →</span></div>
+        </div>
+        <div class="cat-card reveal-up" data-filter="vestuario">
+          <div class="cat-bg" style="background: linear-gradient(135deg,#2d1b69,#11998e)">
+            <div class="cat-3d-icon" id="cat-icon-2"></div>
+          </div>
+          <div class="cat-info"><h3>Vestuário</h3><span>63 Itens →</span></div>
+        </div>
+        <div class="cat-card reveal-up" data-filter="joias">
+          <div class="cat-bg" style="background: linear-gradient(135deg,#3d2314,#c6426e)">
+            <div class="cat-3d-icon" id="cat-icon-3"></div>
+          </div>
+          <div class="cat-info"><h3>Joias</h3><span>32 Itens →</span></div>
+        </div>
+        <div class="cat-card reveal-up" data-filter="bolsas">
+          <div class="cat-bg" style="background: linear-gradient(135deg,#0f2027,#203a43)">
+            <div class="cat-3d-icon" id="cat-icon-4"></div>
+          </div>
+          <div class="cat-info"><h3>Bolsas</h3><span>27 Itens →</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMO BANNER -->
+    <section id="promo">
+      <canvas id="promo-canvas"></canvas>
+      <div class="promo-content">
+        <span class="promo-tag reveal-up">Oferta Limitada</span>
+        <h2 class="promo-title reveal-up">30% OFF<br/><em>na primeira compra</em></h2>
+        <p class="reveal-up">Use o código <strong>OBSIDIAN30</strong> ao finalizar</p>
+        <a href="#featured" class="btn-primary reveal-up">Aproveitar Agora</a>
+      </div>
+      <div class="promo-timer reveal-up">
+        <div class="timer-block"><span id="t-h">00</span><small>Horas</small></div>
+        <div class="timer-sep">:</div>
+        <div class="timer-block"><span id="t-m">00</span><small>Min</small></div>
+        <div class="timer-sep">:</div>
+        <div class="timer-block"><span id="t-s">00</span><small>Seg</small></div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+      <div class="section-header">
+        <span class="section-tag reveal-up">Depoimentos</span>
+        <h2 class="section-title reveal-up">O que dizem</h2>
+      </div>
+      <div class="testimonials-track" id="testimonials-track">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"A qualidade é incomparável. Minha bolsa chegou impecável, como se fosse uma obra de arte."</p>
+          <div class="test-author"><div class="test-avatar">A</div><span>Ana Ferreira</span></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Entrega rápida, embalagem luxuosa. Cada detalhe reflete o cuidado da marca. Recomendo a todos."</p>
+          <div class="test-author"><div class="test-avatar">C</div><span>Carlos Mendes</span></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Comprei o colar de ouro e simplesmente apaixonei. A foto não faz jus à beleza real da peça."</p>
+          <div class="test-author"><div class="test-avatar">M</div><span>Mariana Costa</span></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Atendimento excepcional. A equipe me ajudou a escolher o presente perfeito. Voltarei sempre."</p>
+          <div class="test-author"><div class="test-avatar">R</div><span>Rafael Lima</span></div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p>"Produtos únicos que você não acha em outro lugar. ŌBSIDIAN é minha loja favorita, sem dúvida."</p>
+          <div class="test-author"><div class="test-avatar">J</div><span>Juliana Alves</span></div>
+        </div>
+      </div>
+      <div class="test-controls">
+        <button id="test-prev">←</button>
+        <button id="test-next">→</button>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="about-visual">
+        <canvas id="about-canvas"></canvas>
+      </div>
+      <div class="about-text">
+        <span class="section-tag reveal-up">Nossa História</span>
+        <h2 class="section-title reveal-up">Artesanato<br/><em>& Obsessão</em></h2>
+        <p class="reveal-up">Fundada em 2014, a ŌBSIDIAN nasceu da crença de que luxo verdadeiro não é sobre preço — é sobre intenção. Cada peça que selecionamos passa por um rigoroso processo de curadoria.</p>
+        <p class="reveal-up">Trabalhamos com artesãos de Portugal, Itália e Japão para trazer ao Brasil produtos que unem tradição e modernidade.</p>
+        <div class="about-badges reveal-up">
+          <div class="badge-item"><span class="badge-icon">✦</span><span>Frete Grátis acima de R$500</span></div>
+          <div class="badge-item"><span class="badge-icon">✦</span><span>Garantia de 2 anos</span></div>
+          <div class="badge-item"><span class="badge-icon">✦</span><span>Devoluções em 30 dias</span></div>
+          <div class="badge-item"><span class="badge-icon">✦</span><span>Atendimento 24/7</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section id="newsletter">
+      <div class="newsletter-inner reveal-up">
+        <span class="section-tag">Comunidade</span>
+        <h2>Junte-se ao clube</h2>
+        <p>Receba novidades, lançamentos exclusivos e ofertas especiais antes de todos.</p>
+        <div class="newsletter-form">
+          <input type="email" id="nl-email" placeholder="seu@email.com"/>
+          <button class="btn-primary" id="nl-btn">Inscrever</button>
+        </div>
+        <span id="nl-msg"></span>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="nav-logo">ŌBSIDIAN</span>
+          <p>Artesanato, luxo e intenção em cada detalhe.</p>
+          <div class="footer-social">
+            <a href="#" class="soc">IG</a>
+            <a href="#" class="soc">TK</a>
+            <a href="#" class="soc">FB</a>
+            <a href="#" class="soc">YT</a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Loja</h4>
+          <ul>
+            <li><a href="#">Novidades</a></li>
+            <li><a href="#">Mais Vendidos</a></li>
+            <li><a href="#">Promoções</a></li>
+            <li><a href="#">Coleções</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Ajuda</h4>
+          <ul>
+            <li><a href="#">FAQ</a></li>
+            <li><a href="#">Trocas & Devoluções</a></li>
+            <li><a href="#">Rastrear Pedido</a></li>
+            <li><a href="#">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Parceiros</a></li>
+            <li><a href="#">Carreiras</a></li>
+            <li><a href="#">Imprensa</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 ŌBSIDIAN. Todos os direitos reservados.</span>
+        <span>Desenvolvido com ♦ e Three.js</span>
+      </div>
+    </footer>
+
+  </div><!-- /site -->
+
+  <!-- PRODUCT MODAL -->
+  <div id="modal-overlay"></div>
+  <div id="product-modal">
+    <button id="modal-close">✕</button>
+    <div id="modal-body"></div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
